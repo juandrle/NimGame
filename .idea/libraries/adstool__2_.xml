@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="adstool (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/de/medieninf/ads/adstool.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/src/de/medieninf/ads/adstool.jar!/doc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
