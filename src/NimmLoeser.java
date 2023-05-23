@@ -28,19 +28,19 @@ public class NimmLoeser extends NimmZufall {
     /**
      * Speichert alle möglichen Spielzüge von dem mitgegebenem Array
      *
-     * @param state Array eines Spielfeldes
-     * @param currRow aktuelle Reihe
+     * @param state      Array eines Spielfeldes
+     * @param currRow    aktuelle Reihe
      * @param currAmount aktuelle Anzahl
      */
-    public void saveAllMoves(int [] state, int currRow, int currAmount) {
+    public void saveAllMoves(int[] state, int currRow, int currAmount) {
         // Stoppt Rekursion, wenn die aktuelle Reihe der Länge des Arrays entspricht
         if (currRow == state.length) return;
         // der aktuelle Zug wird in der Array-Liste der möglichen Spielzüge gespeichert
-        this.possibleMoves.add(new int[]{currRow, currAmount});
+        if (state[currRow] != 0) this.possibleMoves.add(new int[]{currRow, currAmount});
         // wenn das Array in der aktuellen Reihe kleiner gleich ist als die Anzahl, rekursiver Aufruf mit Reihe +1
-        if (state[currRow] <= currAmount) saveAllMoves(state, currRow+1, 1);
-        // ansonsten rekursiver Aufruf mit Anzahl +1
-        else if (state[currRow] > currAmount)saveAllMoves(state, currRow, currAmount +1);
+        if (state[currRow] <= currAmount) saveAllMoves(state, currRow + 1, 1);
+            // ansonsten rekursiver Aufruf mit Anzahl +1
+        else if (state[currRow] > currAmount) saveAllMoves(state, currRow, currAmount + 1);
     }
 
     /**
@@ -51,46 +51,59 @@ public class NimmLoeser extends NimmZufall {
      * @param index Index für die Rekursion
      * @return ob es eine Gewinn- oder Verlustposition ist
      */
-    public boolean isWinningPosition(int [] state, int index) {
+    public boolean isWinningPosition(int[] state, int index) {
         // temporäres (geklontes) Array des Spielfeldes
-        int [] temp = state.clone();
+        int[] temp = state.clone();
         // ob die Anzahl aller Elemente aller Reihen gerade sind (Initialisierung)
         boolean isAllEven = true;
         // Ausführung, solange der Index kleiner ist als die Länge der Array-Liste
         while (index < possibleMoves.size()) {
             // der Spielzug am aktuellen Index wird in ein Array geklont
-            int [] currentMove = possibleMoves.get(index).clone();
+            int[] currentMove = possibleMoves.get(index).clone();
             // Ausführung des Zuges
             temp[currentMove[0]] -= currentMove[1];
-            // durchläuft Reihen des Arrays und kontrolliert, ob die Reihen gerade sind
-            for (int row : temp)
-                if (row % 2 != 0) {
-                    isAllEven = false;
-                    break;
+
+            for (int i = 0; i < temp.length; i++) {
+                if (temp[i] == 1) oneCount++;
+                if (temp[i] != 0) existingRowsCount++;
+                for (int j = i + 1; j < temp.length; j++) {
+                    // kontrolliert, ob es mind. zwei identische Reihen gibt mit Elementen > 1
+                    if (temp[i] == temp[j] && temp[i] > 1) {
+                        hasDoubleRow = true;
+                        break;
+                    }
                 }
-            // wenn mindestens eine Reihe ungerade ist ...
-            if (!isAllEven){
+            }
+            if (existingRowsCount % 2 == 1) hasDoubleRow = false;
+            if (oneCount % 2 == 1 && oneCount > 1) hasOnlyUnevenOneRows = true;
+
+            if (!hasDoubleRow && !hasOnlyUnevenOneRows) {
                 // ... rekursiver Aufruf mit Index +1
-                if (isWinningPosition(state,index+1)) {
+                if (isWinningPosition(state, index + 1)) {
                     return true;
-                // ... zurückziehen des Zuges
+                    // ... zurückziehen des Zuges
                 } else {
                     return false;
                 }
-            // aktueller Zug wird als Gewinnzug gespeichert
+                // aktueller Zug wird als Gewinnzug gespeichert
             } else {
+
                 winningMoves.add(currentMove);
+                System.out.println("Zeile "+winningMoves.get(0)[0] + " Anzahl " +  winningMoves.get(0)[1]);
                 System.out.println("System wird gewinnen");
                 return true;
             }
 
-        } System.out.println("System könnte verlieren");
+        }
+
+        System.out.println("System könnte verlieren");
         return false;
     }
+
     @Override
     public int[] computeMove(int[] state) {
         winningMoves.clear();
-        saveAllMoves(state,0,1);
+        saveAllMoves(state, 0, 1);
         if (isWinningPosition(state, 0)) {
             possibleMoves.clear();
             return winningMoves.get((int) (Math.random() * winningMoves.size()));
