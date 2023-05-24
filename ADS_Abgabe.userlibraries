@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="adstool (2)" />
+  <library name="adstool">
+    <archive path="/Users/julianandrle/Desktop/Studium/Semester 2/ADS/Aufgaben Java/ADS_Abgabe/src/adstool.jar" />
+  </library>
+  <library name="adstool" />
+</eclipse-userlibraries>
+

@@ -55,7 +55,11 @@ public class NimmLoeser extends NimmZufall {
         // temporäres (geklontes) Array des Spielfeldes
         int[] temp = state.clone();
         // ob die Anzahl aller Elemente aller Reihen gerade sind (Initialisierung)
-        boolean isAllEven = true;
+        boolean hasOnlyUnevenOneRows;
+        boolean hasDoubleRow;
+        int oneCount;
+        int existingRowsCount;
+
         // Ausführung, solange der Index kleiner ist als die Länge der Array-Liste
         while (index < possibleMoves.size()) {
             hasOnlyUnevenOneRows = false;
