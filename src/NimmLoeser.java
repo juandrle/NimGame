@@ -58,6 +58,10 @@ public class NimmLoeser extends NimmZufall {
         boolean isAllEven = true;
         // Ausführung, solange der Index kleiner ist als die Länge der Array-Liste
         while (index < possibleMoves.size()) {
+            hasOnlyUnevenOneRows = false;
+            hasDoubleRow = false;
+            oneCount = 0;
+            existingRowsCount = 0;
             // der Spielzug am aktuellen Index wird in ein Array geklont
             int[] currentMove = possibleMoves.get(index).clone();
             // Ausführung des Zuges
@@ -76,28 +80,25 @@ public class NimmLoeser extends NimmZufall {
             }
             if (existingRowsCount % 2 == 1) hasDoubleRow = false;
             if (oneCount % 2 == 1 && oneCount > 1) hasOnlyUnevenOneRows = true;
+            if (existingRowsCount == 1 && oneCount == 1) hasOnlyUnevenOneRows = true;
 
             if (!hasDoubleRow && !hasOnlyUnevenOneRows) {
                 // ... rekursiver Aufruf mit Index +1
-                if (isWinningPosition(state, index + 1)) {
-                    return true;
-                    // ... zurückziehen des Zuges
-                } else {
-                    return false;
-                }
+                return isWinningPosition(state, index + 1);
                 // aktueller Zug wird als Gewinnzug gespeichert
             } else {
 
                 winningMoves.add(currentMove);
-                System.out.println("Zeile "+winningMoves.get(0)[0] + " Anzahl " +  winningMoves.get(0)[1]);
-                System.out.println("System wird gewinnen");
-                return true;
+                index++;
+                // System.out.println("Zeile "+winningMoves.get(0)[0] + " Anzahl " +  winningMoves.get(0)[1]);
+                // System.out.println("System wird gewinnen");
+
             }
 
         }
+        return !winningMoves.isEmpty();
 
-        System.out.println("System könnte verlieren");
-        return false;
+        // System.out.println("System könnte verlieren");
     }
 
     @Override
