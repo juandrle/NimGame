@@ -15,7 +15,6 @@ public class NimmZeiger implements NimmListener {
      * @param zeile   int, aus welcher Zeile (ab 0)
      * @param wieviel int, wieviele Elemente genommen
      */
-
     @Override
     public void taken(int zeile, int wieviel) {
         // Ausgabe des Zugs auf der Konsole
@@ -35,7 +34,6 @@ public class NimmZeiger implements NimmListener {
      *
      * @param zustand int[], [1,2,3,4,5]
      */
-
     @Override
     public void newGame(int[] zustand) {
         this.zustand = new int[]{1, 2, 3, 4, 5};
@@ -57,13 +55,8 @@ public class NimmZeiger implements NimmListener {
      * @return int[], Zug, wobei [0] die Zeile (0-basiert) und [1] die Anzahl der zu
      * ziehenden Elemente ist.
      */
-
     @Override
     public int[] computeMove(int[] state) {
         return null; // wir wollen nicht ziehen
-    }
-
-    public static void main(String[] args) {
-        de.medieninf.ads.ADSTool.startNimmGame(new NimmZeiger());
     }
 }

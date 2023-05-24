@@ -1,4 +1,12 @@
 import java.util.ArrayList;
+/**
+ * 2. Semester
+ * Abgabe 01 - NimmSpiel
+ *
+ * @author Julian Andrle
+ * @author Vivien Weber
+ */
+
 
 /**
  * Spielzüge
@@ -9,21 +17,6 @@ public class NimmLoeser extends NimmZufall {
     ArrayList<int[]> winningMoves = new ArrayList<>();
     // Array-Liste mit allen aktuell möglichen Zügen
     ArrayList<int[]> possibleMoves = new ArrayList<>();
-
-  /* normale Lösung
-    @Override
-    public int[] computeMove(int[] state) {
-        for (int i = 0; i < state.length; i++)
-            if (state[i] % 2 != 0)  //sucht nach Zeile ungerader Anzahl
-                return new int[]{i, 1}; // macht die Zeile gerade
-        int sum = 0;
-        for (int part : state) sum += part;
-        if (sum % 2 != 0)
-            for (int i = 0; i < state.length; i++)
-                if(state[i] > 2)
-                    return new int[]{i, 2}; // hält es gerade
-        return super.computeMove(state); // zufällig gezogen
-    }*/
 
     /**
      * Speichert alle möglichen Spielzüge von dem mitgegebenem Array
@@ -44,7 +37,7 @@ public class NimmLoeser extends NimmZufall {
     }
 
     /**
-     * Methode, die bestimmt ob es eine Gewinn- oder Verlustposition
+     * Methode, die bestimmt, ob es eine Gewinn- oder Verlustposition
      * und den Spielzug speichert, wenn es eine Gewinnposition ist
      *
      * @param state Array eines Spielfeldes
@@ -91,32 +84,39 @@ public class NimmLoeser extends NimmZufall {
                 return isWinningPosition(state, index + 1);
                 // aktueller Zug wird als Gewinnzug gespeichert
             } else {
-
                 winningMoves.add(currentMove);
                 index++;
-                // System.out.println("Zeile "+winningMoves.get(0)[0] + " Anzahl " +  winningMoves.get(0)[1]);
-                // System.out.println("System wird gewinnen");
-
             }
 
         }
         return !winningMoves.isEmpty();
-
-        // System.out.println("System könnte verlieren");
     }
 
+    /**
+     * Zug des Computers
+     *
+     * @param state int[], je Zeile (0-basiert) ein Eintrag mit der Anzahl der Elemente
+     * @return Zug des Computers
+     */
     @Override
     public int[] computeMove(int[] state) {
         winningMoves.clear();
         saveAllMoves(state, 0, 1);
         if (isWinningPosition(state, 0)) {
             possibleMoves.clear();
+            System.out.println("System wird gewinnen.");
             return winningMoves.get((int) (Math.random() * winningMoves.size()));
         }
         possibleMoves.clear();
+        System.out.println("System könnte verlieren.");
         return super.computeMove(state);
     }
 
+    /**
+     * Main mit Spielaufruf
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         de.medieninf.ads.ADSTool.startNimmGame(new NimmLoeser());
 

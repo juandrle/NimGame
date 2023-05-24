@@ -18,8 +18,4 @@ public class NimmZufall extends NimmZeiger {
         while (state[row] == 0) row = (int) (Math.random() * 5); // wenn nichts zu ziehen neue random Zeile
         return new int[]{row, (int) (Math.random() * state[row]) + 1}; // ziehe min 1 bis alle der Reihe
     }
-
-    public static void main(String[] args) {
-        de.medieninf.ads.ADSTool.startNimmGame(new NimmZufall());
-    }
 }
