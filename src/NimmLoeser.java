@@ -5,6 +5,7 @@ import java.util.ArrayList;
  *
  * @author Julian Andrle
  * @author Vivien Weber
+ * @author Sarah Schwarzer
  */
 
 
